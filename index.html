@@ -259,13 +259,79 @@ const search =
 
 function showProduct(name, type, price, icon) {
 
-  alert(
-    icon + " " + name +
-    "\n\nប្រភេទ: " + type +
-    "\nតម្លៃ: " + price +
-    "\n\n💬 សូមទាក់ទងអ្នកលក់សម្រាប់ព័ត៌មានបន្ថែម។"
-  );
+  const oldModal = document.getElementById("productModal");
 
+  if (oldModal) {
+    oldModal.remove();
+  }
+
+  const modal = document.createElement("div");
+
+  modal.id = "productModal";
+
+  modal.innerHTML = `
+    <div style="
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.6);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:9999;
+    ">
+
+      <div style="
+        background:white;
+        width:100%;
+        max-width:400px;
+        border-radius:18px;
+        padding:25px;
+        text-align:center;
+      ">
+
+        <div style="font-size:70px;">
+          ${icon}
+        </div>
+
+        <h2 style="margin:10px 0;">
+          ${name}
+        </h2>
+
+        <p style="color:#777;">
+          ${type}
+        </p>
+
+        <div style="
+          font-size:24px;
+          font-weight:bold;
+          color:#b8860b;
+          margin:15px 0;
+        ">
+          ${price}
+        </div>
+
+        <button
+          onclick="document.getElementById('productModal').remove()"
+          style="
+            width:100%;
+            padding:13px;
+            border:0;
+            border-radius:10px;
+            background:#111;
+            color:white;
+            font-size:16px;
+          "
+        >
+          បិទ
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+  document.body.appendChild(modal);
 }
 
 
