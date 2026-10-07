@@ -1,15 +1,18 @@
-
 <!DOCTYPE html>
 <html lang="km">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Product Shop</title>
+  <title>MonyShop - Jewelry</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
+      font-family: Arial, sans-serif;
       background: #f5f5f5;
       color: #222;
     }
@@ -17,14 +20,54 @@
     header {
       background: #111;
       color: white;
-      padding: 20px;
       text-align: center;
+      padding: 24px 15px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      color: #ddd;
     }
 
     .container {
-      padding: 15px;
-      max-width: 800px;
+      max-width: 900px;
       margin: auto;
+      padding: 15px;
+    }
+
+    .search {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .categories {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 18px;
+    }
+
+    .category {
+      border: 1px solid #ddd;
+      background: white;
+      border-radius: 20px;
+      padding: 10px 16px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .category.active {
+      background: #111;
+      color: white;
     }
 
     .products {
@@ -35,46 +78,60 @@
 
     .product {
       background: white;
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    .product img {
-      width: 100%;
-      aspect-ratio: 1/1;
-      object-fit: cover;
-      background: #ddd;
+    .product-image {
+      height: 170px;
+      background: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 65px;
     }
 
-    .info {
+    .product-info {
       padding: 12px;
     }
 
-    .name {
+    .product-name {
       font-weight: bold;
-      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .product-type {
+      color: #777;
+      font-size: 13px;
+      margin-top: 5px;
     }
 
     .price {
-      color: #c99a00;
       font-weight: bold;
+      color: #b8860b;
+      margin-top: 8px;
+      font-size: 17px;
     }
 
-    button {
+    .detail-btn {
       width: 100%;
       margin-top: 10px;
-      padding: 10px;
+      padding: 11px;
       border: none;
-      border-radius: 8px;
+      border-radius: 9px;
       background: #111;
       color: white;
       cursor: pointer;
     }
 
-    @media (max-width: 500px) {
-      .products {
-        grid-template-columns: repeat(2, 1fr);
+    @media (max-width: 400px) {
+      .product-image {
+        height: 140px;
+      }
+
+      .product-name {
+        font-size: 14px;
       }
     }
   </style>
@@ -83,35 +140,224 @@
 <body>
 
 <header>
-  <h2>🛍️ My Product Shop</h2>
-  <p>ផលិតផលរបស់យើង</p>
+  <h1>💎 MonyShop</h1>
+  <p>គ្រឿងអលង្ការ • មាស • ផ្លាទីន</p>
 </header>
 
 <div class="container">
 
-  <div class="products">
+  <input
+    id="search"
+    class="search"
+    type="search"
+    placeholder="🔎 ស្វែងរកផលិតផល..."
+  >
 
-    <div class="product">
-      <img src="https://placehold.co/600x600?text=Product+1">
-      <div class="info">
-        <div class="name">ផលិតផលទី 1</div>
-        <div class="price">$10</div>
-        <button>មើលព័ត៌មាន</button>
-      </div>
-    </div>
+  <div class="categories">
+    <button class="category active" data-category="all">
+      ទាំងអស់
+    </button>
 
-    <div class="product">
-      <img src="https://placehold.co/600x600?text=Product+2">
-      <div class="info">
-        <div class="name">ផលិតផលទី 2</div>
-        <div class="price">$20</div>
-        <button>មើលព័ត៌មាន</button>
-      </div>
-    </div>
+    <button class="category" data-category="gold">
+      មាស
+    </button>
 
+    <button class="category" data-category="platinum">
+      ផ្លាទីន
+    </button>
+
+    <button class="category" data-category="ring">
+      ចិញ្ចៀន
+    </button>
+
+    <button class="category" data-category="necklace">
+      ខ្សែក
+    </button>
+
+    <button class="category" data-category="bracelet">
+      ខ្សែដៃ
+    </button>
   </div>
 
+  <div id="products" class="products"></div>
+
 </div>
+
+<script>
+
+const products = [
+
+  {
+    name: "ចិញ្ចៀនមាស 18K",
+    type: "មាស • ចិញ្ចៀន",
+    price: "$320",
+    category: "ring",
+    icon: "💍"
+  },
+
+  {
+    name: "ចិញ្ចៀនផ្លាទីន",
+    type: "ផ្លាទីន • ចិញ្ចៀន",
+    price: "$480",
+    category: "platinum",
+    icon: "💎"
+  },
+
+  {
+    name: "ខ្សែកមាស",
+    type: "មាស • ខ្សែក",
+    price: "$580",
+    category: "necklace",
+    icon: "📿"
+  },
+
+  {
+    name: "ខ្សែដៃមាស",
+    type: "មាស • ខ្សែដៃ",
+    price: "$450",
+    category: "bracelet",
+    icon: "✨"
+  },
+
+  {
+    name: "ចិញ្ចៀនគូស្នេហ៍",
+    type: "មាស • ចិញ្ចៀន",
+    price: "$390",
+    category: "ring",
+    icon: "💍"
+  },
+
+  {
+    name: "ខ្សែដៃផ្លាទីន",
+    type: "ផ្លាទីន • ខ្សែដៃ",
+    price: "$620",
+    category: "platinum",
+    icon: "💎"
+  }
+
+];
+
+let currentCategory = "all";
+
+const productsContainer =
+  document.getElementById("products");
+
+const search =
+  document.getElementById("search");
+
+
+function displayProducts() {
+
+  const keyword =
+    search.value.toLowerCase().trim();
+
+  const filteredProducts =
+    products.filter(product => {
+
+      const categoryMatch =
+        currentCategory === "all" ||
+        product.category === currentCategory;
+
+      const searchMatch =
+        product.name.toLowerCase()
+          .includes(keyword) ||
+        product.type.toLowerCase()
+          .includes(keyword);
+
+      return categoryMatch && searchMatch;
+
+    });
+
+
+  productsContainer.innerHTML = "";
+
+
+  if (filteredProducts.length === 0) {
+
+    productsContainer.innerHTML =
+      "<p>រកមិនឃើញផលិតផលទេ</p>";
+
+    return;
+  }
+
+
+  filteredProducts.forEach(product => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "product";
+
+
+    card.innerHTML = `
+
+      <div class="product-image">
+        ${product.icon}
+      </div>
+
+      <div class="product-info">
+
+        <div class="product-name">
+          ${product.name}
+        </div>
+
+        <div class="product-type">
+          ${product.type}
+        </div>
+
+        <div class="price">
+          ${product.price}
+        </div>
+
+        <button class="detail-btn">
+          មើលព័ត៌មាន
+        </button>
+
+      </div>
+
+    `;
+
+
+    productsContainer.appendChild(card);
+
+  });
+
+}
+
+
+document
+  .querySelectorAll(".category")
+  .forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      document
+        .querySelectorAll(".category")
+        .forEach(btn =>
+          btn.classList.remove("active")
+        );
+
+      button.classList.add("active");
+
+      currentCategory =
+        button.dataset.category;
+
+      displayProducts();
+
+    });
+
+  });
+
+
+search.addEventListener(
+  "input",
+  displayProducts
+);
+
+
+displayProducts();
+
+</script>
 
 </body>
 </html>
