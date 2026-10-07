@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="km">
 <head>
@@ -125,6 +126,10 @@
       cursor: pointer;
     }
 
+    .detail-btn:active {
+      opacity: 0.8;
+    }
+
     @media (max-width: 400px) {
       .product-image {
         height: 140px;
@@ -154,6 +159,7 @@
   >
 
   <div class="categories">
+
     <button class="category active" data-category="all">
       ទាំងអស់
     </button>
@@ -177,6 +183,7 @@
     <button class="category" data-category="bracelet">
       ខ្សែដៃ
     </button>
+
   </div>
 
   <div id="products" class="products"></div>
@@ -231,7 +238,7 @@ const products = [
     name: "ខ្សែដៃផ្លាទីន",
     type: "ផ្លាទីន • ខ្សែដៃ",
     price: "$620",
-    category: "platinum",
+    category: "bracelet",
     icon: "💎"
   }
 
@@ -245,6 +252,26 @@ const productsContainer =
 const search =
   document.getElementById("search");
 
+
+/* =========================
+   បង្ហាញព័ត៌មានផលិតផល
+========================= */
+
+function showProduct(name, type, price, icon) {
+
+  alert(
+    icon + " " + name +
+    "\n\nប្រភេទ: " + type +
+    "\nតម្លៃ: " + price +
+    "\n\n💬 សូមទាក់ទងអ្នកលក់សម្រាប់ព័ត៌មានបន្ថែម។"
+  );
+
+}
+
+
+/* =========================
+   បង្ហាញផលិតផល
+========================= */
 
 function displayProducts() {
 
@@ -309,7 +336,15 @@ function displayProducts() {
           ${product.price}
         </div>
 
-        <button class="detail-btn">
+        <button
+          class="detail-btn"
+          onclick="showProduct(
+            '${product.name}',
+            '${product.type}',
+            '${product.price}',
+            '${product.icon}'
+          )"
+        >
           មើលព័ត៌មាន
         </button>
 
@@ -324,6 +359,10 @@ function displayProducts() {
 
 }
 
+
+/* =========================
+   Category
+========================= */
 
 document
   .querySelectorAll(".category")
@@ -349,22 +388,24 @@ document
   });
 
 
+/* =========================
+   Search
+========================= */
+
 search.addEventListener(
   "input",
   displayProducts
 );
 
 
+/* =========================
+   Start
+========================= */
+
 displayProducts();
-function showProduct(name, type, price, icon) {
-  alert(
-    icon + " " + name +
-    "\n\nប្រភេទ: " + type +
-    "\nតម្លៃ: " + price +
-    "\n\n💬 សូមទាក់ទងអ្នកលក់សម្រាប់ព័ត៌មានបន្ថែម។"
-  );
-}
+
 </script>
 
 </body>
 </html>
+```
