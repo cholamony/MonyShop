@@ -1,1 +1,324 @@
 
+```html
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MonyShop Admin</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 22px 15px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    header p {
+      margin: 7px 0 0;
+      color: #ccc;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 20px 15px;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .box h2 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .add-btn {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .product {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 12px;
+      background: #fafafa;
+    }
+
+    .product-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .product-type {
+      color: #777;
+      margin-top: 5px;
+    }
+
+    .price {
+      color: #b8860b;
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 7px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>💎 MonyShop Admin</h1>
+  <p>គ្រប់គ្រងផលិតផល</p>
+</header>
+
+<div class="container">
+
+  <div class="box">
+
+    <h2>➕ បន្ថែមផលិតផល</h2>
+
+    <label>ឈ្មោះផលិតផល</label>
+
+    <input
+      id="name"
+      type="text"
+      placeholder="ឧ. ចិញ្ចៀនមាស 18K"
+    >
+
+    <label>ប្រភេទ</label>
+
+    <select id="type">
+
+      <option value="ring">
+        ចិញ្ចៀន
+      </option>
+
+      <option value="necklace">
+        ខ្សែក
+      </option>
+
+      <option value="bracelet">
+        ខ្សែដៃ
+      </option>
+
+      <option value="gold">
+        មាស
+      </option>
+
+      <option value="platinum">
+        ផ្លាទីន
+      </option>
+
+    </select>
+
+    <label>តម្លៃ</label>
+
+    <input
+      id="price"
+      type="text"
+      placeholder="ឧ. $350"
+    >
+
+    <label>Emoji / រូបតំណាង</label>
+
+    <input
+      id="icon"
+      type="text"
+      placeholder="ឧ. 💍"
+      value="💍"
+    >
+
+    <button
+      class="add-btn"
+      onclick="addProduct()"
+    >
+      ➕ បន្ថែមផលិតផល
+    </button>
+
+  </div>
+
+
+  <div class="box">
+
+    <h2>📦 ផលិតផលរបស់ខ្ញុំ</h2>
+
+    <div id="productList"></div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+let products =
+  JSON.parse(
+    localStorage.getItem("monyshop_products")
+  ) || [];
+
+
+function addProduct() {
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const type =
+    document.getElementById("type").value;
+
+  const price =
+    document.getElementById("price").value.trim();
+
+  const icon =
+    document.getElementById("icon").value.trim();
+
+
+  if (!name || !price) {
+
+    alert("សូមបញ្ចូលឈ្មោះ និងតម្លៃផលិតផល");
+
+    return;
+  }
+
+
+  const product = {
+
+    name: name,
+
+    type: type,
+
+    price: price,
+
+    icon: icon || "💎"
+
+  };
+
+
+  products.push(product);
+
+
+  localStorage.setItem(
+    "monyshop_products",
+    JSON.stringify(products)
+  );
+
+
+  document.getElementById("name").value = "";
+
+  document.getElementById("price").value = "";
+
+  document.getElementById("icon").value = "💍";
+
+
+  displayProducts();
+
+  alert("✅ បានបន្ថែមផលិតផល!");
+
+}
+
+
+function displayProducts() {
+
+  const list =
+    document.getElementById("productList");
+
+  list.innerHTML = "";
+
+
+  if (products.length === 0) {
+
+    list.innerHTML =
+      "<p>មិនទាន់មានផលិតផលទេ</p>";
+
+    return;
+  }
+
+
+  products.forEach(product => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "product";
+
+
+    div.innerHTML = `
+
+      <div style="font-size:45px;">
+        ${product.icon}
+      </div>
+
+      <div class="product-name">
+        ${product.name}
+      </div>
+
+      <div class="product-type">
+        ${product.type}
+      </div>
+
+      <div class="price">
+        ${product.price}
+      </div>
+
+    `;
+
+
+    list.appendChild(div);
+
+  });
+
+}
+
+
+displayProducts();
+
+</script>
+
+</body>
+</html>
+```
