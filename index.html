@@ -1,1 +1,117 @@
 
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Product Shop</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      padding: 15px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .product img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      background: #ddd;
+    }
+
+    .info {
+      padding: 12px;
+    }
+
+    .name {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .price {
+      color: #c99a00;
+      font-weight: bold;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #111;
+      color: white;
+      cursor: pointer;
+    }
+
+    @media (max-width: 500px) {
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h2>🛍️ My Product Shop</h2>
+  <p>ផលិតផលរបស់យើង</p>
+</header>
+
+<div class="container">
+
+  <div class="products">
+
+    <div class="product">
+      <img src="https://placehold.co/600x600?text=Product+1">
+      <div class="info">
+        <div class="name">ផលិតផលទី 1</div>
+        <div class="price">$10</div>
+        <button>មើលព័ត៌មាន</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <img src="https://placehold.co/600x600?text=Product+2">
+      <div class="info">
+        <div class="name">ផលិតផលទី 2</div>
+        <div class="price">$20</div>
+        <button>មើលព័ត៌មាន</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
